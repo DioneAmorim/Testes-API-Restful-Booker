@@ -24,6 +24,8 @@ A estrutura de testes foi dividida para cobrir desde os requisitos obrigatórios
 1. **Fluxo de Autenticação (`auth_suites.robot`):**
    - Geração de token de acesso com credenciais válidas de administrador.
    - Validação de tempo de resposta da rota de autenticação.
+1.1 **Smoke de Fluxo Crítico (`smoke_suites.robot`):**
+   - Valida o caminho principal de autenticação, criação, atualização e exclusão de reserva.
 2. **Gestão de Reservas - CRUD (`booking_suites.robot`):**
    - **Create:** Criação de novas reservas enviando payloads válidos.
    - **Read:** Consulta e recuperação de dados de reservas utilizando o ID salvo.

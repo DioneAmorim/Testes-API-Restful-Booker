@@ -17,7 +17,7 @@ def run_robot(path, tags=None):
 
 def main():
     parser = argparse.ArgumentParser(description="Executa os testes API Restful-Booker")
-    parser.add_argument("--suite", choices=["auth", "booking", "performance", "security", "all"], default="all",
+    parser.add_argument("--suite", choices=["auth", "booking", "performance", "security", "smoke", "all"], default="all",
                         help="Suite de testes para executar")
     args = parser.parse_args()
 

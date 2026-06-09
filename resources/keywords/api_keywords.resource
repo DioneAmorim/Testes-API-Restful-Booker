@@ -81,8 +81,8 @@ Então a resposta não deve ser erro do servidor
     Should Be True    ${LAST_RESPONSE.status_code} < 500
 
 Quando eu crio a reserva válida
-    ${bookingdates}=    Create Dictionary    checkin=2025-01-01    checkout=2025-01-05
-    ${payload}=    Create Dictionary    firstname=John    lastname=Doe    totalprice=123    depositpaid=True    bookingdates=${bookingdates}    additionalneeds=Breakfast
+    ${bookingdates}=    Create Dictionary    checkin=${BOOKING_CHECKIN}    checkout=${BOOKING_CHECKOUT}
+    ${payload}=    Create Dictionary    firstname=${BOOKING_FIRSTNAME}    lastname=${BOOKING_LASTNAME}    totalprice=${BOOKING_TOTALPRICE}    depositpaid=${BOOKING_DEPOSITPAID}    bookingdates=${bookingdates}    additionalneeds=${BOOKING_ADDITIONALNEEDS}
     ${response}=    POST On Session    api    ${AUTH_BOOKING}    json=${payload}
     Set Suite Variable    ${LAST_RESPONSE}    ${response}
     ${body}=    Convert String To JSON    ${LAST_RESPONSE.text}
@@ -90,8 +90,8 @@ Quando eu crio a reserva válida
     Set Suite Variable    ${BOOKING_ID}    ${bookingid}
 
 Quando eu crio a reserva sem firstname
-    ${bookingdates}=    Create Dictionary    checkin=2025-01-01    checkout=2025-01-05
-    ${payload}=    Create Dictionary    lastname=Doe    totalprice=123    depositpaid=True    bookingdates=${bookingdates}
+    ${bookingdates}=    Create Dictionary    checkin=${BOOKING_CHECKIN}    checkout=${BOOKING_CHECKOUT}
+    ${payload}=    Create Dictionary    lastname=${BOOKING_LASTNAME}    totalprice=${BOOKING_TOTALPRICE}    depositpaid=${BOOKING_DEPOSITPAID}    bookingdates=${bookingdates}
     ${response}=    POST On Session    api    ${AUTH_BOOKING}    json=${payload}
     Set Suite Variable    ${LAST_RESPONSE}    ${response}
 
@@ -100,16 +100,16 @@ Quando eu recupero a reserva usando o id
     Set Suite Variable    ${LAST_RESPONSE}    ${response}
 
 Quando eu atualizo a reserva com id salvo
-    ${bookingdates}=    Create Dictionary    checkin=2025-02-01    checkout=2025-02-05
-    ${payload}=    Create Dictionary    firstname=Jane    lastname=Doe    totalprice=111    depositpaid=False    bookingdates=${bookingdates}    additionalneeds=Dinner
+    ${bookingdates}=    Create Dictionary    checkin=${BOOKING_CHECKIN}    checkout=${BOOKING_CHECKOUT}
+    ${payload}=    Create Dictionary    firstname=${UPDATED_BOOKING_FIRSTNAME}    lastname=${UPDATED_BOOKING_LASTNAME}    totalprice=${UPDATED_BOOKING_TOTALPRICE}    depositpaid=${UPDATED_BOOKING_DEPOSITPAID}    bookingdates=${bookingdates}    additionalneeds=${UPDATED_BOOKING_ADDITIONALNEEDS}
     ${headers}=    Create Dictionary    Cookie=token=${AUTH_TOKEN}
     ${response}=    PUT On Session    api    ${AUTH_BOOKING}/${BOOKING_ID}    json=${payload}    headers=${headers}
     Set Suite Variable    ${LAST_RESPONSE}    ${response}
 
 Quando eu tento atualizar a reserva com id salvo sem token
     Set Suite Variable    ${REQUEST_ERROR}    ${EMPTY}
-    ${bookingdates}=    Create Dictionary    checkin=2025-02-01    checkout=2025-02-05
-    ${payload}=    Create Dictionary    firstname=Jane    lastname=Doe    totalprice=111    depositpaid=False    bookingdates=${bookingdates}    additionalneeds=Dinner
+    ${bookingdates}=    Create Dictionary    checkin=${BOOKING_CHECKIN}    checkout=${BOOKING_CHECKOUT}
+    ${payload}=    Create Dictionary    firstname=${UPDATED_BOOKING_FIRSTNAME}    lastname=${UPDATED_BOOKING_LASTNAME}    totalprice=${UPDATED_BOOKING_TOTALPRICE}    depositpaid=${UPDATED_BOOKING_DEPOSITPAID}    bookingdates=${bookingdates}    additionalneeds=${UPDATED_BOOKING_ADDITIONALNEEDS}
     ${result}=    Run Keyword And Ignore Error    PUT On Session    api    ${AUTH_BOOKING}/${BOOKING_ID}    json=${payload}
     ${error_msg}=    Get From List    ${result}    1
     Set Suite Variable    ${REQUEST_ERROR}    ${error_msg}
@@ -126,8 +126,8 @@ Quando eu tento excluir a reserva com id salvo sem token
     Set Suite Variable    ${REQUEST_ERROR}    ${error_msg}
 
 Quando eu crio a reserva com payload especial
-    ${bookingdates}=    Create Dictionary    checkin=2025-01-01    checkout=2025-01-05
-    ${payload}=    Evaluate    {'firstname': "Robert' OR '1'='1", 'lastname': 'Doe', 'totalprice': 123, 'depositpaid': True, 'bookingdates': {'checkin': '2025-01-01', 'checkout': '2025-01-05'}, 'additionalneeds': 'Breakfast'}
+    ${bookingdates}=    Create Dictionary    checkin=${BOOKING_CHECKIN}    checkout=${BOOKING_CHECKOUT}
+    ${payload}=    Create Dictionary    firstname=${BOOKING_SPECIAL_FIRSTNAME}    lastname=${BOOKING_LASTNAME}    totalprice=${BOOKING_TOTALPRICE}    depositpaid=${BOOKING_DEPOSITPAID}    bookingdates=${bookingdates}    additionalneeds=${BOOKING_ADDITIONALNEEDS}
     ${response}=    POST On Session    api    ${AUTH_BOOKING}    json=${payload}
     Set Suite Variable    ${LAST_RESPONSE}    ${response}
 
